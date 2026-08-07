@@ -8,6 +8,7 @@ import { getCharacterById } from "@/data/characters";
 import { episode1 } from "@/data/story";
 import { AreaId, Character } from "@/types/kingdom";
 import { AreaHotspot } from "@/components/AreaHotspot";
+import { MarkIcon } from "@/components/MarkIcon";
 import { AreaPanel } from "@/components/AreaPanel";
 import { CharacterCard } from "@/components/CharacterCard";
 import { StoryModal } from "@/components/StoryModal";
@@ -55,11 +56,15 @@ export default function KingdomPage() {
         {!storySeen && (
           <button
             onClick={() => setShowStory(true)}
-            aria-label="謎のできごと"
-            className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 animate-pulse items-center justify-center rounded-full bg-white text-xs font-bold text-kingdom-navy shadow-md sm:h-8 sm:w-8 sm:text-sm"
-            style={{ left: "93%", top: "9%" }}
+            aria-label="古代の丘のしるしを確かめる"
+            className="absolute flex -translate-y-1/2 items-center gap-1 rounded-full bg-white/95 px-2.5 py-1.5 text-[10px] font-bold text-kingdom-navy shadow-md transition active:scale-95 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-xs"
+            style={{ right: "3%", top: "8%" }}
           >
-            ？
+            <span className="relative flex h-3.5 w-3.5 items-center justify-center sm:h-4 sm:w-4">
+              <MarkIcon className="h-full w-full" />
+              <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 animate-pulse rounded-full bg-kingdom-ancient" />
+            </span>
+            しるし
           </button>
         )}
       </div>
