@@ -41,7 +41,7 @@ export function CharacterAvatar({
       style={{
         width: size,
         height: size,
-        backgroundColor: colorForCharacter(character.id),
+        backgroundColor: character.theme?.accent ?? colorForCharacter(character.id),
         fontSize: size * 0.32,
       }}
     >

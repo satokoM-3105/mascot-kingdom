@@ -12,6 +12,7 @@ export const characters: Character[] = [
     areaId: "fukurou-no-mori",
     quote: "「それ、ほんと？ なんで？」",
     note: "王国で何か不思議なことが起きると、誰より早く首を突っ込む。物語を動かす中心人物。",
+    theme: { bg: "#E6EEDD", accent: "#7FA05E" },
   },
   {
     id: "nunuko",
@@ -23,6 +24,7 @@ export const characters: Character[] = [
     areaId: "hajimari-no-oka",
     quote: "「昔はねぇ……まあ、その話はまた今度」",
     note: "現在の王国ができる前から暮らしている。しかし、ぬぬ子がやって来た時には、すでに土偶たちは存在していた。",
+    theme: { bg: "#EAE3D5", accent: "#B79B6E" },
   },
   {
     id: "akkey",
@@ -47,6 +49,7 @@ export const characters: Character[] = [
     areaId: null,
     quote: "「わたし？ さっき古代の丘にいたよ」",
     note: "決まった家を持たず、王国中を自由に歩いている。なぜか古代の丘にも普通に出入りしている。",
+    theme: { bg: "#EDE1EC", accent: "#B98FC2" },
   },
   {
     id: "tamao",
@@ -113,4 +116,8 @@ export const characters: Character[] = [
 
 export function getCharacterById(id: string): Character | undefined {
   return characters.find((c) => c.id === id);
+}
+
+export function getCharacterByName(name: string): Character | undefined {
+  return characters.find((c) => c.name === name);
 }

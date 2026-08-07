@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { Story } from "@/types/kingdom";
+import { SpeechCard } from "./SpeechCard";
+import { NarrationLine } from "./NarrationLine";
+import { AncientMarkCompare } from "./AncientMarkCompare";
 
 export function StoryModal({
   story,
@@ -25,7 +28,7 @@ export function StoryModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-kingdom-navy/60 px-4">
-      <div className="w-full max-w-md rounded-3xl bg-kingdom-cream p-6 shadow-xl">
+      <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl bg-kingdom-cream p-6 shadow-xl">
         {!finished ? (
           <>
             <p className="mb-1 text-xs tracking-wide text-kingdom-green-deep">
@@ -36,17 +39,18 @@ export function StoryModal({
             </p>
 
             <div className="space-y-3">
-              {scene.lines.map((line, i) => (
-                <p key={i} className="text-sm leading-relaxed text-foreground">
-                  {line.speaker && (
-                    <span className="mr-1 font-bold text-kingdom-navy">
-                      {line.speaker}：
-                    </span>
-                  )}
-                  {line.text}
-                </p>
-              ))}
+              {scene.lines.map((line, i) =>
+                line.speaker ? (
+                  <SpeechCard key={i} speakerName={line.speaker} text={line.text} />
+                ) : (
+                  <NarrationLine key={i} text={line.text} />
+                )
+              )}
             </div>
+
+            {scene.visual?.type === "mark-comparison" && (
+              <AncientMarkCompare visual={scene.visual} />
+            )}
 
             <button
               onClick={advance}

@@ -15,6 +15,11 @@ export const episode1: Story = {
         { speaker: "ふくまろん", text: "「なんで？」" },
         { text: "石に刻まれた模様が変わっている。" },
       ],
+      visual: {
+        type: "mark-comparison",
+        before: { label: "昨日の模様" },
+        after: { label: "今日の模様" },
+      },
       choiceLabel: "ぬぬ子に聞きに行く",
     },
     {

@@ -37,6 +37,11 @@ export interface Character {
   note?: string;
   /** 差し替え用の画像パス。未設定ならプレースホルダー表示 */
   imageUrl?: string;
+  /** 会話カード・アバターの配色。未設定なら共通のプレースホルダー配色を使う */
+  theme?: {
+    bg: string;
+    accent: string;
+  };
 }
 
 export interface StoryLine {
@@ -44,11 +49,20 @@ export interface StoryLine {
   text: string;
 }
 
+/** シーンに添える補助的な図版。将来種類が増える想定で判別可能なunionにしている */
+export type SceneVisual = {
+  type: "mark-comparison";
+  before: { label: string; imageUrl?: string };
+  after: { label: string; imageUrl?: string };
+};
+
 export interface StoryScene {
   id: number;
   location: string;
   lines: StoryLine[];
   choiceLabel?: string;
+  /** セリフとは別に添える補助図版（任意） */
+  visual?: SceneVisual;
 }
 
 export interface Story {
