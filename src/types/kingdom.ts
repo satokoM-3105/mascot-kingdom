@@ -11,9 +11,9 @@ export interface Area {
   id: AreaId;
   name: string;
   description: string;
-  /** マップ上の相対位置（%）。0-100 */
-  position: { x: number; y: number };
-  /** エリアのテーマカラー */
+  /** マップ画像上のクリック領域（%指定の矩形。0-100） */
+  hitArea: { left: number; top: number; width: number; height: number };
+  /** エリアのテーマカラー（ホバー時のヒント表示に使用） */
   color: string;
   /** 主な住人 */
   residentIds: string[];

@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { areas, getAreaById } from "@/data/areas";
 import { getCharacterById } from "@/data/characters";
 import { episode1 } from "@/data/story";
 import { AreaId, Character } from "@/types/kingdom";
-import { AreaPin } from "@/components/AreaPin";
+import { AreaHotspot } from "@/components/AreaHotspot";
 import { AreaPanel } from "@/components/AreaPanel";
 import { CharacterCard } from "@/components/CharacterCard";
 import { StoryModal } from "@/components/StoryModal";
+
+const MAP_IMAGE_WIDTH = 1672;
+const MAP_IMAGE_HEIGHT = 941;
 
 export default function KingdomPage() {
   const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
@@ -32,21 +36,32 @@ export default function KingdomPage() {
       </header>
 
       <div
-        className="relative mx-auto aspect-[4/5] w-full max-w-2xl overflow-hidden rounded-3xl border border-white/60 shadow-inner sm:aspect-[3/2]"
-        style={{
-          background:
-            "linear-gradient(180deg, var(--kingdom-blue) 0%, var(--kingdom-green) 55%, var(--kingdom-beige) 100%)",
-        }}
+        className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-white/60 shadow-inner"
+        style={{ aspectRatio: `${MAP_IMAGE_WIDTH} / ${MAP_IMAGE_HEIGHT}` }}
       >
+        <Image
+          src="/images/kingdom-map.png"
+          alt="マスコット王国マップ"
+          fill
+          priority
+          className="object-cover"
+          sizes="(min-width: 768px) 768px, 100vw"
+        />
+
         {areas.map((area) => (
-          <AreaPin
-            key={area.id}
-            area={area}
-            onSelect={setSelectedAreaId}
-            showEventMark={area.hasEvent && !storySeen}
-            onEventMarkClick={() => setShowStory(true)}
-          />
+          <AreaHotspot key={area.id} area={area} onSelect={setSelectedAreaId} />
         ))}
+
+        {!storySeen && (
+          <button
+            onClick={() => setShowStory(true)}
+            aria-label="謎のできごと"
+            className="absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 animate-pulse items-center justify-center rounded-full bg-white text-xs font-bold text-kingdom-navy shadow-md sm:h-8 sm:w-8 sm:text-sm"
+            style={{ left: "93%", top: "9%" }}
+          >
+            ？
+          </button>
+        )}
       </div>
 
       <p className="mx-auto max-w-2xl px-6 py-4 text-center text-xs text-kingdom-navy/50">
