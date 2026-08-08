@@ -6,15 +6,17 @@ import { BookIcon } from "./BookIcon";
 export function StoryEntryBadge({
   onClick,
   style,
+  className,
 }: {
   onClick: () => void;
   style?: CSSProperties;
+  className?: string;
 }) {
   return (
     <button
       onClick={onClick}
       aria-label="古代の丘のおはなしを見る"
-      className="group absolute flex -translate-x-1/2 flex-col items-center"
+      className={`group flex flex-col items-center ${className ?? ""}`}
       style={style}
     >
       <span className="relative flex items-center gap-1.5 rounded-2xl border border-kingdom-ancient/30 bg-white/95 px-3.5 py-2 shadow-md transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-105 group-hover:shadow-[0_6px_18px_rgba(156,143,166,0.4)] sm:gap-2 sm:px-4 sm:py-2.5">

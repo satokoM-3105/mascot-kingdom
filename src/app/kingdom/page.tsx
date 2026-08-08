@@ -27,7 +27,7 @@ export default function KingdomPage() {
   const selectedArea = selectedAreaId ? getAreaById(selectedAreaId) : null;
 
   return (
-    <main className="relative min-h-screen bg-kingdom-cream">
+    <main className="relative flex min-h-[100dvh] flex-col bg-kingdom-cream sm:block sm:min-h-screen">
       <header className="flex items-center justify-between px-5 py-4">
         <Link href="/" className="text-sm text-kingdom-navy/60">
           ← 王国の入口
@@ -36,34 +36,53 @@ export default function KingdomPage() {
         <span className="w-16" />
       </header>
 
-      <div
-        className="relative mx-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-white/60 shadow-inner"
-        style={{ aspectRatio: `${MAP_IMAGE_WIDTH} / ${MAP_IMAGE_HEIGHT}` }}
-      >
-        <Image
-          src="/images/kingdom-map.png"
-          alt="マスコット王国マップ"
-          fill
-          priority
-          className="object-cover"
-          sizes="(min-width: 768px) 768px, 100vw"
-        />
+      {/* ヘッダーは常に最上部に固定し、マップ以下だけを残り領域の中で
+          縦方向に中央寄せする（スマホで内容が画面上部に偏るのを防ぐ）。 */}
+      <div className="flex flex-1 flex-col justify-center sm:block">
+        <div className="relative mx-auto aspect-[3/2] w-full max-w-3xl overflow-hidden rounded-3xl border border-white/60 shadow-inner sm:aspect-[1672/941]">
+          {/* 画像とタップ領域は常にマップ画像本来の縦横比を保ったまま中央配置し、
+              スマホでは左右がoverflow-hiddenで切れることで縦の表示領域を稼ぐ。
+              areaのhitAreaはこの内側要素基準の%のため、切れてもタップ位置はズレない。 */}
+          <div
+            className="absolute left-1/2 top-0 h-full -translate-x-1/2"
+            style={{ aspectRatio: `${MAP_IMAGE_WIDTH} / ${MAP_IMAGE_HEIGHT}` }}
+          >
+            <Image
+              src="/images/kingdom-map.png"
+              alt="マスコット王国マップ"
+              fill
+              priority
+              className="object-cover"
+              sizes="(min-width: 768px) 768px, 100vw"
+            />
 
-        {areas.map((area) => (
-          <AreaHotspot key={area.id} area={area} onSelect={setSelectedAreaId} />
-        ))}
+            {areas.map((area) => (
+              <AreaHotspot key={area.id} area={area} onSelect={setSelectedAreaId} />
+            ))}
+
+            {!storySeen && (
+              <StoryEntryBadge
+                onClick={() => setShowStory(true)}
+                className="absolute hidden -translate-x-1/2 sm:flex"
+                style={{ left: "79%", top: "4%" }}
+              />
+            )}
+          </div>
+        </div>
 
         {!storySeen && (
-          <StoryEntryBadge
-            onClick={() => setShowStory(true)}
-            style={{ left: "79%", top: "4%" }}
-          />
+          <div className="mt-3 flex justify-center sm:hidden">
+            <StoryEntryBadge
+              onClick={() => setShowStory(true)}
+              className="relative"
+            />
+          </div>
         )}
-      </div>
 
-      <p className="mx-auto max-w-2xl px-6 py-4 text-center text-xs text-kingdom-navy/50">
-        エリアをタップすると、住んでいる住人がわかります。
-      </p>
+        <p className="mx-auto max-w-2xl px-6 pb-8 pt-3 text-center text-xs text-kingdom-navy/50 sm:pb-4 sm:pt-4">
+          エリアをタップすると、住んでいる住人がわかります。
+        </p>
+      </div>
 
       {selectedArea && (
         <AreaPanel
