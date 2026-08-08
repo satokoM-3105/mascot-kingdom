@@ -12,12 +12,16 @@ import { StoryEntryBadge } from "@/components/StoryEntryBadge";
 import { AreaPanel } from "@/components/AreaPanel";
 import { CharacterCard } from "@/components/CharacterCard";
 import { StoryModal } from "@/components/StoryModal";
+import { ResidentsSection } from "@/components/ResidentsSection";
 
 const MAP_IMAGE_WIDTH = 1672;
 const MAP_IMAGE_HEIGHT = 941;
 
 export default function KingdomPage() {
   const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
+  // 「この場所の住人」欄はタップしたエリアの情報を表示し続ける。
+  // モーダル（AreaPanel）を閉じても消えないよう、開閉は別状態で管理する。
+  const [isAreaPanelOpen, setIsAreaPanelOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
@@ -25,6 +29,16 @@ export default function KingdomPage() {
   const [storySeen, setStorySeen] = useState(false);
 
   const selectedArea = selectedAreaId ? getAreaById(selectedAreaId) : null;
+  const selectedResidents = selectedArea
+    ? selectedArea.residentIds
+        .map(getCharacterById)
+        .filter((c): c is Character => Boolean(c))
+    : [];
+  const selectedVisitors = selectedArea
+    ? (selectedArea.visitorIds ?? [])
+        .map(getCharacterById)
+        .filter((c): c is Character => Boolean(c))
+    : [];
 
   return (
     <main className="relative bg-kingdom-cream sm:min-h-screen">
@@ -70,7 +84,14 @@ export default function KingdomPage() {
             />
 
             {areas.map((area) => (
-              <AreaHotspot key={area.id} area={area} onSelect={setSelectedAreaId} />
+              <AreaHotspot
+                key={area.id}
+                area={area}
+                onSelect={(id) => {
+                  setSelectedAreaId(id);
+                  setIsAreaPanelOpen(true);
+                }}
+              />
             ))}
           </div>
         </div>
@@ -84,22 +105,25 @@ export default function KingdomPage() {
           </div>
         )}
 
-        <p className="mx-auto max-w-2xl px-6 pb-8 pt-3 text-center text-xs text-kingdom-navy/50 sm:pb-4 sm:pt-4">
+        <p className="mx-auto max-w-2xl px-6 pt-3 text-center text-xs text-kingdom-navy/50 sm:pt-4">
           エリアをタップすると、住んでいる住人がわかります。
         </p>
+
+        <ResidentsSection
+          area={selectedArea ?? null}
+          residents={selectedResidents}
+          visitors={selectedVisitors}
+          onSelectCharacter={setSelectedCharacter}
+        />
       </div>
 
-      {selectedArea && (
+      {isAreaPanelOpen && selectedArea && (
         <AreaPanel
           area={selectedArea}
-          residents={selectedArea.residentIds
-            .map(getCharacterById)
-            .filter((c): c is Character => Boolean(c))}
-          visitors={(selectedArea.visitorIds ?? [])
-            .map(getCharacterById)
-            .filter((c): c is Character => Boolean(c))}
+          residents={selectedResidents}
+          visitors={selectedVisitors}
           onSelectCharacter={setSelectedCharacter}
-          onClose={() => setSelectedAreaId(null)}
+          onClose={() => setIsAreaPanelOpen(false)}
         />
       )}
 
