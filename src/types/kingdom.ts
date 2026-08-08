@@ -13,6 +13,9 @@ export interface Area {
   description: string;
   /** マップ画像上のクリック領域（%指定の矩形。0-100） */
   hitArea: { left: number; top: number; width: number; height: number };
+  /** マップ画像に描き込まれたラベル文字の中心位置（%指定）。
+   * スマホ表示で読みやすいラベルを重ねて表示する際に使用 */
+  labelPosition?: { left: number; top: number };
   /** エリアのテーマカラー（ホバー時のヒント表示に使用） */
   color: string;
   /** 主な住人 */
