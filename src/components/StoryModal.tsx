@@ -31,10 +31,10 @@ export function StoryModal({
       <div className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-3xl bg-kingdom-cream p-6 shadow-xl">
         {!finished ? (
           <>
-            <p className="mb-1 text-xs tracking-wide text-kingdom-green-deep">
+            <p className="mb-1 text-xs font-semibold tracking-wide text-kingdom-ink">
               {story.title}
             </p>
-            <p className="mb-4 text-sm text-kingdom-navy/60">
+            <p className="mb-4 text-sm font-medium text-kingdom-ink/85">
               {scene.location}
             </p>
 

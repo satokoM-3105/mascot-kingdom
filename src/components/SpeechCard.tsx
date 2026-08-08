@@ -32,7 +32,7 @@ export function SpeechCard({
           {speakerName}
         </p>
         <div
-          className="rounded-2xl rounded-tl-sm px-3 py-2 text-sm leading-relaxed text-foreground"
+          className="rounded-2xl rounded-tl-sm px-3 py-2 text-sm font-medium leading-relaxed text-kingdom-ink"
           style={{ backgroundColor: bg }}
         >
           {text}
