@@ -39,6 +39,15 @@ export default function KingdomPage() {
       {/* ヘッダーは常に最上部に固定し、マップ以下だけを残り領域の中で
           縦方向に中央寄せする（スマホで内容が画面上部に偏るのを防ぐ）。 */}
       <div className="flex flex-1 flex-col justify-center sm:block">
+        {/* PCでは地図の外・右上に独立したCTAとして配置する。
+            エリアのタップ領域が地図全体をほぼ覆っているため、
+            地図の中に置くとどこでも地名やクリック領域と重なってしまうため。 */}
+        {!storySeen && (
+          <div className="mx-auto hidden w-full max-w-3xl justify-end pb-3 sm:flex">
+            <StoryEntryBadge onClick={() => setShowStory(true)} />
+          </div>
+        )}
+
         <div className="relative mx-auto aspect-[3/2] w-full max-w-3xl overflow-hidden rounded-3xl border border-white/60 shadow-inner sm:aspect-[1672/941]">
           {/* 画像とタップ領域は常にマップ画像本来の縦横比を保ったまま中央配置し、
               スマホでは左右がoverflow-hiddenで切れることで縦の表示領域を稼ぐ。
@@ -59,22 +68,14 @@ export default function KingdomPage() {
             {areas.map((area) => (
               <AreaHotspot key={area.id} area={area} onSelect={setSelectedAreaId} />
             ))}
-
-            {!storySeen && (
-              <StoryEntryBadge
-                onClick={() => setShowStory(true)}
-                className="absolute hidden -translate-x-1/2 sm:flex"
-                style={{ left: "79%", top: "4%" }}
-              />
-            )}
           </div>
         </div>
 
         {!storySeen && (
-          <div className="mt-3 flex justify-center sm:hidden">
+          <div className="mx-auto mt-4 flex w-full max-w-2xl justify-center px-6 sm:hidden">
             <StoryEntryBadge
               onClick={() => setShowStory(true)}
-              className="relative"
+              className="w-[85%] max-w-sm"
             />
           </div>
         )}
