@@ -41,6 +41,7 @@ export function CharacterFigure({
   showName = true,
   variant,
   emote,
+  emoteSide = "right",
 }: {
   character: Character;
   size?: keyof typeof SIZE_CLASSES;
@@ -52,6 +53,8 @@ export function CharacterFigure({
   variant?: CharacterImageVariant;
   /** 表情を補う、控えめな感情アイコン */
   emote?: EmotionKind;
+  /** 2匹並びのとき、もう1匹がいない側（外側）に出す。左に立つ子はleft */
+  emoteSide?: "left" | "right";
 }) {
   if (!character.imageUrl) return null;
 
@@ -84,7 +87,7 @@ export function CharacterFigure({
           />
         </div>
         {/* マスクの影響を受けないよう、キャラクター本体の外側に重ねる */}
-        {emote && <EmotionAccent kind={emote} />}
+        {emote && <EmotionAccent kind={emote} side={emoteSide} />}
       </div>
       {showName && (
         <span
@@ -98,13 +101,15 @@ export function CharacterFigure({
   );
 }
 
-function EmotionAccent({ kind }: { kind: EmotionKind }) {
+function EmotionAccent({ kind, side }: { kind: EmotionKind; side: "left" | "right" }) {
+  const sidePos = side === "left" ? "-left-1 sm:-left-2" : "-right-1 sm:-right-2";
+
   if (kind === "sparkle") {
     return (
       <svg
         viewBox="0 0 24 24"
         aria-hidden
-        className="absolute -right-1 top-1 h-6 w-6 drop-shadow-sm sm:-right-2 sm:top-2 sm:h-7 sm:w-7"
+        className={`absolute ${sidePos} top-1 h-6 w-6 drop-shadow-sm sm:top-2 sm:h-7 sm:w-7`}
       >
         <path
           d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z"
@@ -120,7 +125,7 @@ function EmotionAccent({ kind }: { kind: EmotionKind }) {
       <svg
         viewBox="0 0 32 14"
         aria-hidden
-        className="absolute -right-2 top-2 h-3.5 w-9 sm:top-3"
+        className={`absolute ${sidePos} top-2 h-3.5 w-9 sm:top-3`}
       >
         <circle cx="3" cy="11" r="1.6" fill="var(--kingdom-ancient)" opacity="0.5" />
         <circle cx="14" cy="7" r="2.1" fill="var(--kingdom-ancient)" opacity="0.65" />
@@ -135,7 +140,7 @@ function EmotionAccent({ kind }: { kind: EmotionKind }) {
   return (
     <span
       aria-hidden
-      className="absolute -right-1 top-0 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-base font-bold shadow-sm sm:-right-2 sm:h-8 sm:w-8 sm:text-lg"
+      className={`absolute ${sidePos} top-0 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-base font-bold shadow-sm sm:h-8 sm:w-8 sm:text-lg`}
       style={{ color }}
     >
       {label}

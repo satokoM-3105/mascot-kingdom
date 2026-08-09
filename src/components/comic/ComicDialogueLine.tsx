@@ -26,7 +26,7 @@ export function ComicDialogueLine({
         </span>
       )}
       <p
-        className={`max-w-[19rem] text-base font-medium leading-relaxed text-kingdom-ink shadow-sm ${
+        className={`max-w-[20rem] text-base font-medium leading-relaxed text-kingdom-ink shadow-sm sm:max-w-[23rem] ${
           isRight ? "rounded-2xl rounded-tr-sm" : "rounded-2xl rounded-tl-sm"
         } px-4 py-2.5 sm:text-lg`}
         style={{ backgroundColor: bg }}

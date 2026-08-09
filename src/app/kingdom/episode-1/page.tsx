@@ -24,24 +24,18 @@ export default function Episode1Page() {
         </Link>
       </header>
 
-      {/* 扉：タイトルのみ、静かに */}
-      <ComicScene className="gap-2 pb-6 pt-4 sm:pb-8">
-        <ScrollReveal>
+      {/* 場面1：タイトル・場所・マロンとふくまろんをまとめて、間延びさせずに見せる */}
+      <ComicScene padding="compact" className="gap-3 sm:gap-4">
+        <ScrollReveal className="space-y-1">
           <p className="text-center text-sm font-bold tracking-wide text-kingdom-ink/80 sm:text-base">
             {episode1Comic.title}
           </p>
-        </ScrollReveal>
-      </ComicScene>
-
-      {/* 場面1：マロンとふくまろんをまず大きく見せる */}
-      <ComicScene>
-        <ScrollReveal>
-          <p className="text-xs text-kingdom-ink/60 sm:text-sm">古代の丘</p>
+          <p className="text-center text-xs text-kingdom-ink/60 sm:text-sm">古代の丘</p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.05} className="flex items-end justify-center gap-1">
           <Float range={5} duration={4} delay={0}>
-            <CharacterFigure character={maron} size="xl" priority emote="sparkle" />
+            <CharacterFigure character={maron} size="xl" priority emote="sparkle" emoteSide="left" />
           </Float>
           <Float range={5} duration={4.6} delay={0.5}>
             <CharacterFigure character={fukumaron} size="xl" priority />
@@ -62,12 +56,7 @@ export default function Episode1Page() {
       <ComicScene tone="soft">
         <ScrollReveal className="flex items-end justify-center gap-2">
           <Float range={4} duration={4.2}>
-            <CharacterFigure
-              character={maron}
-              size="md"
-              variant={episode1Images.maronThinking}
-              emote="question"
-            />
+            <CharacterFigure character={maron} size="md" variant={episode1Images.maronThinking} />
           </Float>
           <Float range={4} duration={4.8} delay={0.3}>
             <CharacterFigure character={fukumaron} size="md" variant={episode1Images.fukumaronThinking} />
@@ -126,15 +115,11 @@ export default function Episode1Page() {
               size="xl"
               variant={episode1Images.maronThinking}
               emote="sparkle"
+              emoteSide="left"
             />
           </Float>
           <Float range={5} duration={4.7} delay={0.4}>
-            <CharacterFigure
-              character={fukumaron}
-              size="xl"
-              variant={episode1Images.fukumaronThinking}
-              emote="question"
-            />
+            <CharacterFigure character={fukumaron} size="xl" variant={episode1Images.fukumaronThinking} />
           </Float>
         </ScrollReveal>
 
@@ -164,13 +149,14 @@ export default function Episode1Page() {
         <ScrollReveal delay={0.15} className="flex items-end justify-center gap-2">
           <CharacterFigure
             character={maron}
-            size="md"
+            size="lg"
             variant={episode1Images.maronSurprised}
             emote="sparkle"
+            emoteSide="left"
           />
           <CharacterFigure
             character={fukumaron}
-            size="md"
+            size="lg"
             variant={episode1Images.fukumaronSurprised}
             emote="exclaim"
           />
@@ -187,7 +173,7 @@ export default function Episode1Page() {
       </ComicScene>
 
       {/* 場面6：余韻と次への引き */}
-      <ComicScene tone="soft" className="pb-20">
+      <ComicScene tone="soft">
         <ScrollReveal className="flex items-end justify-center gap-1">
           <Float range={4} duration={4.3}>
             <CharacterFigure character={maron} size="lg" />
@@ -216,6 +202,8 @@ export default function Episode1Page() {
           </EpisodeCTAButton>
           <p className="text-xs text-kingdom-navy/45">{episode1Comic.teaser}</p>
         </ScrollReveal>
+
+        <div className="h-6 sm:h-10" aria-hidden />
       </ComicScene>
     </main>
   );
