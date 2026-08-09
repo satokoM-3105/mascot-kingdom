@@ -8,6 +8,18 @@ export interface ComicLine {
   text: string;
 }
 
+/** 第1話用に用意した、表情・ポーズ差分イラスト（2026-08-09受領分）。
+ * 通常画像（maron.png / fukumaron.png）はcharacters.tsの基本画像をそのまま使う。
+ * calling/calmは現在どの場面にも割り当てていないが、今後使う可能性があるため残す。 */
+export const episode1Images = {
+  maronCalling: { url: "/images/maron_calling.png", width: 1086, height: 1448 },
+  maronThinking: { url: "/images/maron_thinking.png", width: 1122, height: 1402 },
+  maronSurprised: { url: "/images/maron_surprised.png", width: 1086, height: 1448 },
+  fukumaronCalm: { url: "/images/fukumaron_calm.png", width: 1086, height: 1448 },
+  fukumaronThinking: { url: "/images/fukumaron_thinking.png", width: 1086, height: 1448 },
+  fukumaronSurprised: { url: "/images/fukumaron_surprised.png", width: 1086, height: 1448 },
+};
+
 export const episode1Comic = {
   title: "第1話「古代の丘のしるし」",
   /** 王国マップ側のお話一覧カードに使う、短い紹介文 */

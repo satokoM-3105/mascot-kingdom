@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { getCharacterById } from "@/data/characters";
-import { episode1Comic } from "@/data/episode1Comic";
+import { episode1Comic, episode1Images } from "@/data/episode1Comic";
 import { ComicScene } from "@/components/comic/ComicScene";
 import { ScrollReveal } from "@/components/comic/ScrollReveal";
 import { Float } from "@/components/comic/Float";
@@ -10,7 +10,6 @@ import { CharacterFigure } from "@/components/comic/CharacterFigure";
 import { ComicDialogueLine } from "@/components/comic/ComicDialogueLine";
 import { ComicCaption } from "@/components/comic/ComicCaption";
 import { MarkComparisonBig, MarkGlyphAfter } from "@/components/comic/MarkComparisonBig";
-import { ChestSparkle } from "@/components/comic/ChestSparkle";
 import { EpisodeCTAButton } from "@/components/comic/EpisodeCTAButton";
 
 export default function Episode1Page() {
@@ -42,10 +41,10 @@ export default function Episode1Page() {
 
         <ScrollReveal delay={0.05} className="flex items-end justify-center gap-1">
           <Float range={5} duration={4} delay={0}>
-            <CharacterFigure character={maron} size="xl" priority lean="in" emote="sparkle" />
+            <CharacterFigure character={maron} size="xl" priority emote="sparkle" />
           </Float>
           <Float range={5} duration={4.6} delay={0.5}>
-            <CharacterFigure character={fukumaron} size="xl" priority tiltDeg={-4} />
+            <CharacterFigure character={fukumaron} size="xl" priority />
           </Float>
         </ScrollReveal>
 
@@ -63,10 +62,15 @@ export default function Episode1Page() {
       <ComicScene tone="soft">
         <ScrollReveal className="flex items-end justify-center gap-2">
           <Float range={4} duration={4.2}>
-            <CharacterFigure character={maron} size="md" flip lean="in" emote="question" />
+            <CharacterFigure
+              character={maron}
+              size="md"
+              variant={episode1Images.maronThinking}
+              emote="question"
+            />
           </Float>
           <Float range={4} duration={4.8} delay={0.3}>
-            <CharacterFigure character={fukumaron} size="md" tiltDeg={6} />
+            <CharacterFigure character={fukumaron} size="md" variant={episode1Images.fukumaronThinking} />
           </Float>
         </ScrollReveal>
 
@@ -102,9 +106,9 @@ export default function Episode1Page() {
           <ComicDialogueLine character={maron} text={episode1Comic.scene3.lines[1].text} align="left" />
         </ScrollReveal>
 
-        <ScrollReveal delay={0.2} className="relative">
-          <CharacterFigure character={maron} size="xl" tiltDeg={-6} />
-          <ChestSparkle style={{ left: "44%", top: "54%" }} />
+        <ScrollReveal delay={0.2} className="flex items-end justify-center gap-2">
+          <CharacterFigure character={maron} size="xl" variant={episode1Images.maronThinking} />
+          <CharacterFigure character={fukumaron} size="md" variant={episode1Images.fukumaronThinking} />
         </ScrollReveal>
 
         <ScrollReveal delay={0.3} className="w-full space-y-2">
@@ -117,10 +121,20 @@ export default function Episode1Page() {
       <ComicScene tone="soft">
         <ScrollReveal className="flex items-end justify-center gap-1">
           <Float range={5} duration={4.1}>
-            <CharacterFigure character={maron} size="xl" lean="in" tiltDeg={3} emote="sparkle" />
+            <CharacterFigure
+              character={maron}
+              size="xl"
+              variant={episode1Images.maronThinking}
+              emote="sparkle"
+            />
           </Float>
           <Float range={5} duration={4.7} delay={0.4}>
-            <CharacterFigure character={fukumaron} size="xl" tiltDeg={-8} emote="question" />
+            <CharacterFigure
+              character={fukumaron}
+              size="xl"
+              variant={episode1Images.fukumaronThinking}
+              emote="question"
+            />
           </Float>
         </ScrollReveal>
 
@@ -148,8 +162,18 @@ export default function Episode1Page() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.15} className="flex items-end justify-center gap-2">
-          <CharacterFigure character={maron} size="md" lean="in" tiltDeg={-3} emote="sparkle" />
-          <CharacterFigure character={fukumaron} size="md" lean="back" emote="exclaim" />
+          <CharacterFigure
+            character={maron}
+            size="md"
+            variant={episode1Images.maronSurprised}
+            emote="sparkle"
+          />
+          <CharacterFigure
+            character={fukumaron}
+            size="md"
+            variant={episode1Images.fukumaronSurprised}
+            emote="exclaim"
+          />
         </ScrollReveal>
 
         <div className="flex w-full flex-col gap-3">
@@ -169,7 +193,7 @@ export default function Episode1Page() {
             <CharacterFigure character={maron} size="lg" />
           </Float>
           <Float range={4} duration={4.9} delay={0.3}>
-            <CharacterFigure character={fukumaron} size="lg" tiltDeg={-4} emote="think" />
+            <CharacterFigure character={fukumaron} size="lg" emote="think" />
           </Float>
         </ScrollReveal>
 

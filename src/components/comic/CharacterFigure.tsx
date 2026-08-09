@@ -24,8 +24,14 @@ const DEFAULT_ACCENT = "#B0A88F";
 
 export type EmotionKind = "sparkle" | "question" | "exclaim" | "think";
 
-/** 同じ1枚絵の使い回しでも毎回違う場面に見えるよう、わずかな向き・傾き・
- * 重心の変化と、控えめな感情アイコンを組み合わせて差分をつける。
+export interface CharacterImageVariant {
+  url: string;
+  width: number;
+  height: number;
+}
+
+/** 場面ごとに表情・ポーズ違いの実イラストへ差し替えられるようにする。
+ * variantを渡さなければ、常用の基本画像（character.imageUrl）を使う。
  * 立ち絵そのもの（キャラクターデザイン）は一切変更しない。 */
 export function CharacterFigure({
   character,
@@ -33,9 +39,7 @@ export function CharacterFigure({
   className,
   priority,
   showName = true,
-  flip = false,
-  tiltDeg = 0,
-  lean,
+  variant,
   emote,
 }: {
   character: Character;
@@ -44,27 +48,19 @@ export function CharacterFigure({
   priority?: boolean;
   /** キャラクターの真下に名前の小さな名札を出す（初見でも誰か分かるように）。 */
   showName?: boolean;
-  /** 左右反転。非対称な小物（かばん・葉っぱ等）の見え方が変わり、使い回し感を減らす */
-  flip?: boolean;
-  /** ごく軽い傾き（度）。首をかしげる／のぞき込む雰囲気を出す */
-  tiltDeg?: number;
-  /** "in"=少し身を乗り出す（前のめり）／"back"=少し落ち着いて引く */
-  lean?: "in" | "back";
+  /** 場面用の表情・ポーズ差分画像。省略時は基本画像を使う */
+  variant?: CharacterImageVariant;
   /** 表情を補う、控えめな感情アイコン */
   emote?: EmotionKind;
 }) {
   if (!character.imageUrl) return null;
 
-  const dims = NATURAL_SIZE[character.id] ?? { width: 640, height: 640 };
+  const src = variant?.url ?? character.imageUrl;
+  const dims = variant
+    ? { width: variant.width, height: variant.height }
+    : (NATURAL_SIZE[character.id] ?? { width: 640, height: 640 });
   const bg = character.theme?.bg ?? DEFAULT_BG;
   const accent = character.theme?.accent ?? DEFAULT_ACCENT;
-
-  const transformParts: string[] = [];
-  if (flip) transformParts.push("scaleX(-1)");
-  if (tiltDeg) transformParts.push(`rotate(${tiltDeg}deg)`);
-  if (lean === "in") transformParts.push("translateY(-4px) scale(1.04)");
-  if (lean === "back") transformParts.push("translateY(3px) scale(0.97)");
-  const transform = transformParts.length > 0 ? transformParts.join(" ") : undefined;
 
   return (
     <div className={`flex flex-col items-center ${className ?? ""}`}>
@@ -75,12 +71,10 @@ export function CharacterFigure({
             maskImage: EDGE_FADE_MASK,
             WebkitMaskImage: EDGE_FADE_MASK,
             filter: "drop-shadow(0 12px 16px rgba(59, 54, 42, 0.16))",
-            transform,
-            transition: "transform 0.2s ease-out",
           }}
         >
           <Image
-            src={character.imageUrl}
+            src={src}
             alt={character.name}
             width={dims.width}
             height={dims.height}
@@ -89,7 +83,7 @@ export function CharacterFigure({
             className="h-auto w-full object-contain"
           />
         </div>
-        {/* マスク・傾き・反転の影響を受けないよう、キャラクター本体の外側に重ねる */}
+        {/* マスクの影響を受けないよう、キャラクター本体の外側に重ねる */}
         {emote && <EmotionAccent kind={emote} />}
       </div>
       {showName && (
