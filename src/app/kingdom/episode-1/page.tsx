@@ -14,19 +14,9 @@ import { StoneGlow } from "@/components/comic/StoneGlow";
 import { ChestSparkle } from "@/components/comic/ChestSparkle";
 import { EpisodeCTAButton } from "@/components/comic/EpisodeCTAButton";
 
-const EPISODE_SEEN_KEY = "mascot-kingdom:episode1-seen";
-
 export default function Episode1Page() {
   const fukumaron = getCharacterById("fukumaron")!;
   const maron = getCharacterById("maron")!;
-
-  const markSeen = () => {
-    try {
-      window.localStorage.setItem(EPISODE_SEEN_KEY, "1");
-    } catch {
-      // ローカルストレージが使えなくても読み進めには影響しない
-    }
-  };
 
   return (
     <main className="bg-kingdom-cream">
@@ -199,7 +189,7 @@ export default function Episode1Page() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.45} className="flex flex-col items-center gap-3 pt-2">
-          <EpisodeCTAButton href="/kingdom" onNavigate={markSeen}>
+          <EpisodeCTAButton href="/kingdom">
             {episode1Comic.scene6.ctaLabel}
           </EpisodeCTAButton>
           <p className="text-xs text-kingdom-navy/45">{episode1Comic.teaser}</p>

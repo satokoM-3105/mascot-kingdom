@@ -1,20 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { areas, getAreaById } from "@/data/areas";
 import { getCharacterById } from "@/data/characters";
 import { AreaId, Character } from "@/types/kingdom";
 import { AreaHotspot } from "@/components/AreaHotspot";
-import { StoryEntryBadge } from "@/components/StoryEntryBadge";
 import { AreaPanel } from "@/components/AreaPanel";
 import { CharacterCard } from "@/components/CharacterCard";
 import { ResidentsSection } from "@/components/ResidentsSection";
 
 const MAP_IMAGE_WIDTH = 1672;
 const MAP_IMAGE_HEIGHT = 941;
-const EPISODE_SEEN_KEY = "mascot-kingdom:episode1-seen";
 
 export default function KingdomPage() {
   const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
@@ -24,21 +22,6 @@ export default function KingdomPage() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
-  // 第1話は専用ページに移動したため、閲覧済みかどうかはページ間を移動しても
-  // 残るようlocalStorageで管理する（以前はページ内状態のみで再読み込みで消えていた）。
-  const [storySeen, setStorySeen] = useState(false);
-
-  useEffect(() => {
-    try {
-      const seen = window.localStorage.getItem(EPISODE_SEEN_KEY) === "1";
-      // サーバー側では常にfalseで描画するため、閲覧済みの場合だけ
-      // マウント後に1回状態を合わせる（バッジがある一瞬表示されるのは許容する）。
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (seen) setStorySeen(true);
-    } catch {
-      // ローカルストレージが使えなくても表示に支障はない
-    }
-  }, []);
 
   const selectedArea = selectedAreaId ? getAreaById(selectedAreaId) : null;
   const selectedResidents = selectedArea
@@ -65,16 +48,6 @@ export default function KingdomPage() {
       {/* タイトル直下から自然に続く配置（画面内で縦中央寄せにはしない）。
           スマホはタイトル→マップの間隔を詰め、PCは元の余白のまま。 */}
       <div className="mt-2 sm:mt-0">
-        {/* PCでは地図の外・右上に独立したCTAとして配置する。
-            エリアのタップ領域が地図全体をほぼ覆っているため、
-            地図の中に置くとどこでも地名やクリック領域と重なってしまうため。
-            スマホでは表示しない（マップ直下のCTAのみ表示、二重表示を防ぐ）。 */}
-        {!storySeen && (
-          <div className="mx-auto hidden w-full max-w-3xl justify-end pb-3 sm:flex">
-            <StoryEntryBadge href="/kingdom/episode-1" />
-          </div>
-        )}
-
         <div className="relative mx-auto aspect-[3/2] w-full max-w-3xl overflow-hidden rounded-3xl border border-white/60 shadow-inner sm:aspect-[1672/941]">
           {/* 画像とタップ領域は常にマップ画像本来の縦横比を保ったまま中央配置する。
               スマホ（aspect-[3/2]）は左右がoverflow-hiddenで切れることで縦の
@@ -108,14 +81,8 @@ export default function KingdomPage() {
           </div>
         </div>
 
-        {!storySeen && (
-          <div className="mx-auto mt-4 flex w-full max-w-2xl justify-center px-6 sm:hidden">
-            <StoryEntryBadge href="/kingdom/episode-1" className="w-[85%] max-w-sm" />
-          </div>
-        )}
-
         <p className="mx-auto max-w-2xl px-6 pt-3 text-center text-xs text-kingdom-navy/50 sm:pt-4">
-          エリアをタップすると、住んでいる住人がわかります。
+          エリアをタップすると、住んでいる住人や、その場所のお話がわかります。
         </p>
 
         <ResidentsSection
