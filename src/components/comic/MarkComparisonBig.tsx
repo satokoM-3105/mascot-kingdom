@@ -1,9 +1,8 @@
-import Image from "next/image";
-import { SceneVisual } from "@/types/kingdom";
+import { ScrollReveal } from "./ScrollReveal";
 
 function MarkGlyphBefore() {
   return (
-    <svg viewBox="0 0 72 72" className="h-12 w-12 sm:h-14 sm:w-14" fill="none">
+    <svg viewBox="0 0 72 72" className="h-20 w-20 sm:h-24 sm:w-24" fill="none">
       <circle cx="36" cy="36" r="26" stroke="var(--kingdom-ancient)" strokeWidth="2.5" />
       <path
         d="M22 36c4-10 10-14 14-10s2 12-4 14-12-2-8-8"
@@ -17,9 +16,9 @@ function MarkGlyphBefore() {
   );
 }
 
-function MarkGlyphAfter() {
+export function MarkGlyphAfter() {
   return (
-    <svg viewBox="0 0 72 72" className="h-12 w-12 sm:h-14 sm:w-14" fill="none">
+    <svg viewBox="0 0 72 72" className="h-20 w-20 sm:h-24 sm:w-24" fill="none">
       {/* 開き始めた円。上部にはっきりしたすきまがある */}
       <circle
         cx="36"
@@ -58,53 +57,30 @@ function MarkGlyphAfter() {
   );
 }
 
-function MarkTile({
-  label,
-  imageUrl,
-  glyph,
-}: {
-  label: string;
-  imageUrl?: string;
-  glyph: React.ReactNode;
-}) {
+function MarkTile({ label, glyph, delay = 0 }: { label: string; glyph: React.ReactNode; delay?: number }) {
   return (
-    <div className="flex flex-1 flex-col items-center gap-2 rounded-2xl border border-white/70 bg-gradient-to-b from-white/70 to-kingdom-beige/40 px-4 py-4 shadow-sm">
-      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/80 shadow-inner sm:h-20 sm:w-20">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={label}
-            width={56}
-            height={56}
-            className="object-contain"
-          />
-        ) : (
-          glyph
-        )}
+    <ScrollReveal delay={delay} className="flex flex-1 flex-col items-center gap-3">
+      <div className="flex h-28 w-28 items-center justify-center rounded-full border border-white/70 bg-gradient-to-b from-white/80 to-kingdom-beige/40 shadow-sm sm:h-32 sm:w-32">
+        {glyph}
       </div>
-      <p className="text-xs font-medium text-kingdom-ink/90">{label}</p>
-    </div>
+      <p className="text-sm font-medium text-kingdom-ink/90 sm:text-base">{label}</p>
+    </ScrollReveal>
   );
 }
 
-export function AncientMarkCompare({
-  visual,
+/** 「昨日の模様」と「今日の模様」を、これまでより大きく・比較しやすく見せる。 */
+export function MarkComparisonBig({
+  beforeLabel,
+  afterLabel,
 }: {
-  visual: Extract<SceneVisual, { type: "mark-comparison" }>;
+  beforeLabel: string;
+  afterLabel: string;
 }) {
   return (
-    <div className="my-3 flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-4">
-      <MarkTile
-        label={visual.before.label}
-        imageUrl={visual.before.imageUrl}
-        glyph={<MarkGlyphBefore />}
-      />
-      <span className="text-lg text-kingdom-navy/40 sm:mt-6">→</span>
-      <MarkTile
-        label={visual.after.label}
-        imageUrl={visual.after.imageUrl}
-        glyph={<MarkGlyphAfter />}
-      />
+    <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-6">
+      <MarkTile label={beforeLabel} glyph={<MarkGlyphBefore />} />
+      <span className="text-xl text-kingdom-navy/40 sm:mt-8">→</span>
+      <MarkTile label={afterLabel} glyph={<MarkGlyphAfter />} delay={0.15} />
     </div>
   );
 }

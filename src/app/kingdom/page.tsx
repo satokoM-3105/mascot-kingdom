@@ -1,21 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { areas, getAreaById } from "@/data/areas";
 import { getCharacterById } from "@/data/characters";
-import { episode1 } from "@/data/story";
 import { AreaId, Character } from "@/types/kingdom";
 import { AreaHotspot } from "@/components/AreaHotspot";
 import { StoryEntryBadge } from "@/components/StoryEntryBadge";
 import { AreaPanel } from "@/components/AreaPanel";
 import { CharacterCard } from "@/components/CharacterCard";
-import { StoryModal } from "@/components/StoryModal";
 import { ResidentsSection } from "@/components/ResidentsSection";
 
 const MAP_IMAGE_WIDTH = 1672;
 const MAP_IMAGE_HEIGHT = 941;
+const EPISODE_SEEN_KEY = "mascot-kingdom:episode1-seen";
 
 export default function KingdomPage() {
   const [selectedAreaId, setSelectedAreaId] = useState<AreaId | null>(null);
@@ -25,8 +24,21 @@ export default function KingdomPage() {
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
-  const [showStory, setShowStory] = useState(false);
+  // 第1話は専用ページに移動したため、閲覧済みかどうかはページ間を移動しても
+  // 残るようlocalStorageで管理する（以前はページ内状態のみで再読み込みで消えていた）。
   const [storySeen, setStorySeen] = useState(false);
+
+  useEffect(() => {
+    try {
+      const seen = window.localStorage.getItem(EPISODE_SEEN_KEY) === "1";
+      // サーバー側では常にfalseで描画するため、閲覧済みの場合だけ
+      // マウント後に1回状態を合わせる（バッジがある一瞬表示されるのは許容する）。
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (seen) setStorySeen(true);
+    } catch {
+      // ローカルストレージが使えなくても表示に支障はない
+    }
+  }, []);
 
   const selectedArea = selectedAreaId ? getAreaById(selectedAreaId) : null;
   const selectedResidents = selectedArea
@@ -59,7 +71,7 @@ export default function KingdomPage() {
             スマホでは表示しない（マップ直下のCTAのみ表示、二重表示を防ぐ）。 */}
         {!storySeen && (
           <div className="mx-auto hidden w-full max-w-3xl justify-end pb-3 sm:flex">
-            <StoryEntryBadge onClick={() => setShowStory(true)} />
+            <StoryEntryBadge href="/kingdom/episode-1" />
           </div>
         )}
 
@@ -98,10 +110,7 @@ export default function KingdomPage() {
 
         {!storySeen && (
           <div className="mx-auto mt-4 flex w-full max-w-2xl justify-center px-6 sm:hidden">
-            <StoryEntryBadge
-              onClick={() => setShowStory(true)}
-              className="w-[85%] max-w-sm"
-            />
+            <StoryEntryBadge href="/kingdom/episode-1" className="w-[85%] max-w-sm" />
           </div>
         )}
 
@@ -131,16 +140,6 @@ export default function KingdomPage() {
         <CharacterCard
           character={selectedCharacter}
           onClose={() => setSelectedCharacter(null)}
-        />
-      )}
-
-      {showStory && (
-        <StoryModal
-          story={episode1}
-          onClose={() => {
-            setShowStory(false);
-            setStorySeen(true);
-          }}
         />
       )}
     </main>

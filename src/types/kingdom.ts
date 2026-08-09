@@ -46,33 +46,3 @@ export interface Character {
     accent: string;
   };
 }
-
-export interface StoryLine {
-  speaker?: string;
-  text: string;
-}
-
-/** シーンに添える補助的な図版。将来種類が増える想定で判別可能なunionにしている */
-export type SceneVisual = {
-  type: "mark-comparison";
-  before: { label: string; imageUrl?: string };
-  after: { label: string; imageUrl?: string };
-};
-
-export interface StoryScene {
-  id: number;
-  location: string;
-  lines: StoryLine[];
-  choiceLabel?: string;
-  /** セリフとは別に添える補助図版（任意） */
-  visual?: SceneVisual;
-}
-
-export interface Story {
-  id: string;
-  title: string;
-  triggerAreaId: AreaId;
-  scenes: StoryScene[];
-  endingText: string;
-  teaser: string;
-}

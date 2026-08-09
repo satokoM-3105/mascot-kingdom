@@ -1,20 +1,21 @@
 "use client";
 
 import { CSSProperties } from "react";
+import Link from "next/link";
 import { BookIcon } from "./BookIcon";
 
 export function StoryEntryBadge({
-  onClick,
+  href,
   style,
   className,
 }: {
-  onClick: () => void;
+  href: string;
   style?: CSSProperties;
   className?: string;
 }) {
   return (
-    <button
-      onClick={onClick}
+    <Link
+      href={href}
       aria-label="王国のおはなしを読む"
       style={style}
       className={`group relative flex items-center justify-center gap-3 rounded-2xl border-2 border-kingdom-ancient/40 bg-gradient-to-r from-kingdom-blue/30 via-white/95 to-kingdom-beige/40 px-5 py-3 shadow-md transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(156,143,166,0.4)] hover:brightness-105 active:scale-[0.98] ${className ?? ""}`}
@@ -38,6 +39,6 @@ export function StoryEntryBadge({
           fill="var(--kingdom-ancient)"
         />
       </svg>
-    </button>
+    </Link>
   );
 }
