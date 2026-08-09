@@ -52,8 +52,9 @@ export function MarkGlyphAfter({ glow = false }: { glow?: boolean }) {
         opacity="0.9"
       />
 
-      {/* 石が返事をする瞬間：星が「パッ→ふわっ→消える」と発光する。
-          拡大・バウンドはさせず、明るさ（不透明度）の変化だけで見せる。 */}
+      {/* 石が返事をする瞬間：星が「ふわっ→少し弱まる→ふわっ→ごく弱い余韻」と
+          ためらいながら2〜3回発光する。拡大・バウンドはさせず、明るさ
+          （不透明度）の変化だけで見せる（合計約2.2秒）。 */}
       {glow && (
         <>
           {/* ごく薄く広がる、周辺への反射光 */}
@@ -65,13 +66,19 @@ export function MarkGlyphAfter({ glow = false }: { glow?: boolean }) {
             style={{ filter: "blur(8px)" }}
             initial={{ opacity: 0 }}
             whileInView={
-              reduceMotion ? { opacity: 0.14 } : { opacity: [0, 0.2, 0.12, 0] }
+              reduceMotion
+                ? { opacity: 0.14 }
+                : { opacity: [0, 0.2, 0.05, 0.18, 0.04, 0.08, 0] }
             }
             viewport={{ once: true, amount: 0.6 }}
             transition={
               reduceMotion
                 ? { duration: 0.3 }
-                : { duration: 0.85, times: [0, 0.18, 0.55, 1], ease: "easeOut" }
+                : {
+                    duration: 2.2,
+                    times: [0, 0.16, 0.32, 0.55, 0.73, 0.9, 1],
+                    ease: "easeInOut",
+                  }
             }
           />
           {/* 星のまわりに広がる、やわらかい金色のグロー */}
@@ -83,13 +90,19 @@ export function MarkGlyphAfter({ glow = false }: { glow?: boolean }) {
             style={{ filter: "blur(3px)" }}
             initial={{ opacity: 0 }}
             whileInView={
-              reduceMotion ? { opacity: 0.75 } : { opacity: [0, 1, 0.55, 0] }
+              reduceMotion
+                ? { opacity: 0.75 }
+                : { opacity: [0, 0.95, 0.35, 0.85, 0.25, 0.35, 0] }
             }
             viewport={{ once: true, amount: 0.6 }}
             transition={
               reduceMotion
                 ? { duration: 0.3 }
-                : { duration: 0.85, times: [0, 0.15, 0.55, 1], ease: "easeOut" }
+                : {
+                    duration: 2.2,
+                    times: [0, 0.16, 0.32, 0.55, 0.73, 0.9, 1],
+                    ease: "easeInOut",
+                  }
             }
           />
           {/* 星の中心そのものが、やや強めの淡い金色で発光する */}
@@ -101,13 +114,19 @@ export function MarkGlyphAfter({ glow = false }: { glow?: boolean }) {
             style={{ filter: "blur(1px)" }}
             initial={{ opacity: 0 }}
             whileInView={
-              reduceMotion ? { opacity: 0.9 } : { opacity: [0, 1, 0.65, 0] }
+              reduceMotion
+                ? { opacity: 0.9 }
+                : { opacity: [0, 1, 0.3, 0.9, 0.2, 0.4, 0] }
             }
             viewport={{ once: true, amount: 0.6 }}
             transition={
               reduceMotion
                 ? { duration: 0.3 }
-                : { duration: 0.75, times: [0, 0.13, 0.5, 1], ease: "easeOut" }
+                : {
+                    duration: 2.2,
+                    times: [0, 0.16, 0.32, 0.55, 0.73, 0.9, 1],
+                    ease: "easeInOut",
+                  }
             }
           />
         </>
