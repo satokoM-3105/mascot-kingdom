@@ -10,7 +10,6 @@ import { CharacterFigure } from "@/components/comic/CharacterFigure";
 import { ComicDialogueLine } from "@/components/comic/ComicDialogueLine";
 import { ComicCaption } from "@/components/comic/ComicCaption";
 import { MarkComparisonBig, MarkGlyphAfter } from "@/components/comic/MarkComparisonBig";
-import { StoneGlow } from "@/components/comic/StoneGlow";
 import { ChestSparkle } from "@/components/comic/ChestSparkle";
 import { EpisodeCTAButton } from "@/components/comic/EpisodeCTAButton";
 
@@ -141,10 +140,9 @@ export default function Episode1Page() {
       {/* 場面5：石が返事をする（いちばんの見せ場） */}
       <ComicScene>
         <ScrollReveal className="relative flex justify-center py-2">
-          <StoneGlow className="scale-150" />
           <div className="relative flex h-32 w-32 items-center justify-center rounded-full border border-white/70 bg-gradient-to-b from-white/80 to-kingdom-beige/40 shadow-sm sm:h-40 sm:w-40">
             <div className="scale-125 sm:scale-150">
-              <MarkGlyphAfter />
+              <MarkGlyphAfter glow />
             </div>
           </div>
         </ScrollReveal>

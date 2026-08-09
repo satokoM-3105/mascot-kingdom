@@ -34,7 +34,7 @@ export const episode1Comic = {
     lines: [
       { speaker: "fukumaron", text: "「葉っぱが増えてる」" },
       { speaker: "maron", text: "「星もあるよ」" },
-      { speaker: "maron", text: "「……似てない？」" },
+      { speaker: "maron", text: "「この星……わたしのと少し似てない？」" },
       { speaker: "fukumaron", text: "「似てるね」" },
     ] satisfies ComicLine[],
   },

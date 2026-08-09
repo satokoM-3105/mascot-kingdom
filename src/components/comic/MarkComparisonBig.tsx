@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { ScrollReveal } from "./ScrollReveal";
 
 function MarkGlyphBefore() {
@@ -16,9 +19,11 @@ function MarkGlyphBefore() {
   );
 }
 
-export function MarkGlyphAfter() {
+export function MarkGlyphAfter({ glow = false }: { glow?: boolean }) {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <svg viewBox="0 0 72 72" className="h-20 w-20 sm:h-24 sm:w-24" fill="none">
+    <svg viewBox="0 0 72 72" className="h-20 w-20 sm:h-24 sm:w-24 overflow-visible" fill="none">
       {/* 開き始めた円。上部にはっきりしたすきまがある */}
       <circle
         cx="36"
@@ -46,11 +51,44 @@ export function MarkGlyphAfter() {
         strokeWidth="0.6"
         opacity="0.9"
       />
+
+      {/* 石が返事をする瞬間：星のまわりに淡い金色のグローが「ふわっ」と
+          広がり、少し余韻を残して消える。星自体も一瞬だけ大きくなる。 */}
+      {glow && (
+        <motion.circle
+          cx="43.8"
+          cy="6.5"
+          r="12"
+          fill="var(--kingdom-beige)"
+          style={{ filter: "blur(3.5px)" }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={
+            reduceMotion
+              ? { opacity: [0, 0.8, 0] }
+              : { opacity: [0, 1, 0.6, 0], scale: [0.5, 1.2, 1.05, 0.85] }
+          }
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{
+            duration: reduceMotion ? 1 : 2.2,
+            times: reduceMotion ? [0, 0.5, 1] : [0, 0.5, 0.75, 1],
+            ease: "easeOut",
+          }}
+        />
+      )}
+
       {/* すきまからのぞく、小さな星のきざし（控えめな金） */}
-      <path
+      <motion.path
         d="M43.5 2.2 L44.6 5.1 L47.6 6.2 L44.6 7.3 L43.5 10.2 L42.4 7.3 L39.4 6.2 L42.4 5.1 Z"
         fill="var(--kingdom-beige)"
         opacity="0.95"
+        initial={glow && !reduceMotion ? { scale: 1 } : undefined}
+        whileInView={
+          glow && !reduceMotion ? { scale: [1, 1.55, 1.05] } : undefined
+        }
+        viewport={glow ? { once: true, amount: 0.6 } : undefined}
+        transition={
+          glow ? { duration: 1.3, times: [0, 0.45, 1], ease: "easeOut" } : undefined
+        }
       />
       <circle cx="48.5" cy="10.8" r="0.9" fill="var(--kingdom-beige)" opacity="0.85" />
     </svg>
