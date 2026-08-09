@@ -52,43 +52,72 @@ export function MarkGlyphAfter({ glow = false }: { glow?: boolean }) {
         opacity="0.9"
       />
 
-      {/* 石が返事をする瞬間：星のまわりに淡い金色のグローが「ふわっ」と
-          広がり、少し余韻を残して消える。星自体も一瞬だけ大きくなる。 */}
+      {/* 石が返事をする瞬間：星が「パッ→ふわっ→消える」と発光する。
+          拡大・バウンドはさせず、明るさ（不透明度）の変化だけで見せる。 */}
       {glow && (
-        <motion.circle
-          cx="43.8"
-          cy="6.5"
-          r="12"
-          fill="var(--kingdom-beige)"
-          style={{ filter: "blur(3.5px)" }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          whileInView={
-            reduceMotion
-              ? { opacity: [0, 0.8, 0] }
-              : { opacity: [0, 1, 0.6, 0], scale: [0.5, 1.2, 1.05, 0.85] }
-          }
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{
-            duration: reduceMotion ? 1 : 2.2,
-            times: reduceMotion ? [0, 0.5, 1] : [0, 0.5, 0.75, 1],
-            ease: "easeOut",
-          }}
-        />
+        <>
+          {/* ごく薄く広がる、周辺への反射光 */}
+          <motion.circle
+            cx="43.8"
+            cy="6.5"
+            r="22"
+            fill="var(--kingdom-beige)"
+            style={{ filter: "blur(8px)" }}
+            initial={{ opacity: 0 }}
+            whileInView={
+              reduceMotion ? { opacity: 0.14 } : { opacity: [0, 0.2, 0.12, 0] }
+            }
+            viewport={{ once: true, amount: 0.6 }}
+            transition={
+              reduceMotion
+                ? { duration: 0.3 }
+                : { duration: 0.85, times: [0, 0.18, 0.55, 1], ease: "easeOut" }
+            }
+          />
+          {/* 星のまわりに広がる、やわらかい金色のグロー */}
+          <motion.circle
+            cx="43.8"
+            cy="6.5"
+            r="10"
+            fill="var(--kingdom-beige)"
+            style={{ filter: "blur(3px)" }}
+            initial={{ opacity: 0 }}
+            whileInView={
+              reduceMotion ? { opacity: 0.75 } : { opacity: [0, 1, 0.55, 0] }
+            }
+            viewport={{ once: true, amount: 0.6 }}
+            transition={
+              reduceMotion
+                ? { duration: 0.3 }
+                : { duration: 0.85, times: [0, 0.15, 0.55, 1], ease: "easeOut" }
+            }
+          />
+          {/* 星の中心そのものが、やや強めの淡い金色で発光する */}
+          <motion.circle
+            cx="43.8"
+            cy="6.5"
+            r="4.2"
+            fill="#FFE3A6"
+            style={{ filter: "blur(1px)" }}
+            initial={{ opacity: 0 }}
+            whileInView={
+              reduceMotion ? { opacity: 0.9 } : { opacity: [0, 1, 0.65, 0] }
+            }
+            viewport={{ once: true, amount: 0.6 }}
+            transition={
+              reduceMotion
+                ? { duration: 0.3 }
+                : { duration: 0.75, times: [0, 0.13, 0.5, 1], ease: "easeOut" }
+            }
+          />
+        </>
       )}
 
       {/* すきまからのぞく、小さな星のきざし（控えめな金） */}
-      <motion.path
+      <path
         d="M43.5 2.2 L44.6 5.1 L47.6 6.2 L44.6 7.3 L43.5 10.2 L42.4 7.3 L39.4 6.2 L42.4 5.1 Z"
         fill="var(--kingdom-beige)"
         opacity="0.95"
-        initial={glow && !reduceMotion ? { scale: 1 } : undefined}
-        whileInView={
-          glow && !reduceMotion ? { scale: [1, 1.55, 1.05] } : undefined
-        }
-        viewport={glow ? { once: true, amount: 0.6 } : undefined}
-        transition={
-          glow ? { duration: 1.3, times: [0, 0.45, 1], ease: "easeOut" } : undefined
-        }
       />
       <circle cx="48.5" cy="10.8" r="0.9" fill="var(--kingdom-beige)" opacity="0.85" />
     </svg>
