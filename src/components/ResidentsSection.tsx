@@ -173,7 +173,7 @@ function PawIcon({ className }: { className?: string }) {
   );
 }
 
-function StoryBookIcon({ className }: { className?: string }) {
+export function StoryBookIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden>
       <path

@@ -10,6 +10,7 @@ import { AreaHotspot } from "@/components/AreaHotspot";
 import { AreaPanel } from "@/components/AreaPanel";
 import { CharacterCard } from "@/components/CharacterCard";
 import { ResidentsSection } from "@/components/ResidentsSection";
+import { PublishedStoriesSection } from "@/components/PublishedStoriesSection";
 
 const MAP_IMAGE_WIDTH = 1672;
 const MAP_IMAGE_HEIGHT = 941;
@@ -81,7 +82,9 @@ export default function KingdomPage() {
           </div>
         </div>
 
-        <p className="mx-auto max-w-2xl px-6 pt-3 text-center text-xs text-kingdom-navy/50 sm:pt-4">
+        <PublishedStoriesSection />
+
+        <p className="mx-auto max-w-2xl px-6 pt-5 text-center text-xs text-kingdom-navy/50 sm:pt-6">
           エリアをタップすると、住んでいる住人や、その場所のお話がわかります。
         </p>
 

@@ -10,6 +10,8 @@ export interface ComicLine {
 
 export const episode1Comic = {
   title: "第1話「古代の丘のしるし」",
+  /** 王国マップ側のお話一覧カードに使う、短い紹介文 */
+  summary: "マロンとふくまろんが、古代の丘で不思議なしるしを見つけます。",
 
   scene1: {
     location: "古代の丘",
