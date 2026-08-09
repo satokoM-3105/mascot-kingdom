@@ -20,14 +20,12 @@ export default function Home() {
           マスコット王国
         </h1>
 
-        <p className="text-base text-kingdom-navy/80 sm:text-lg">
-          かわいい日常のすぐ隣に、小さな謎がある。
-        </p>
-
-        <p className="text-sm leading-relaxed text-foreground/80">
-          ここは、たくさんの住人たちが自由に暮らすマスコット王国。
+        <p className="text-base leading-loose text-kingdom-ink/90 sm:text-lg">
+          もし、ぬいぐるみたちが本当に話して、笑って、暮らしていたら。
           <br />
-          でも、この国には誰もちゃんと説明できない昔があります。
+          そんな想像から生まれたのが、マスコット王国です。
+          <br />
+          ここでは、かわいい住人たちの小さな物語が始まります。
         </p>
 
         <Link

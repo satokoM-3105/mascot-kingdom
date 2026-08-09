@@ -19,39 +19,57 @@ const SIZE_CLASSES = {
   xl: "w-64 sm:w-[19rem]",
 } as const;
 
+const DEFAULT_BG = "#F1ECE0";
+const DEFAULT_ACCENT = "#B0A88F";
+
 export function CharacterFigure({
   character,
   size = "lg",
   className,
   priority,
+  showName = true,
 }: {
   character: Character;
   size?: keyof typeof SIZE_CLASSES;
   className?: string;
   priority?: boolean;
+  /** キャラクターの真下に名前の小さな名札を出す（初見でも誰か分かるように）。 */
+  showName?: boolean;
 }) {
   if (!character.imageUrl) return null;
 
   const dims = NATURAL_SIZE[character.id] ?? { width: 640, height: 640 };
+  const bg = character.theme?.bg ?? DEFAULT_BG;
+  const accent = character.theme?.accent ?? DEFAULT_ACCENT;
 
   return (
-    <div
-      className={`relative ${SIZE_CLASSES[size]} ${className ?? ""}`}
-      style={{
-        maskImage: EDGE_FADE_MASK,
-        WebkitMaskImage: EDGE_FADE_MASK,
-        filter: "drop-shadow(0 12px 16px rgba(59, 54, 42, 0.16))",
-      }}
-    >
-      <Image
-        src={character.imageUrl}
-        alt={character.name}
-        width={dims.width}
-        height={dims.height}
-        priority={priority}
-        sizes="(min-width: 640px) 300px, 240px"
-        className="h-auto w-full object-contain"
-      />
+    <div className={`flex flex-col items-center ${className ?? ""}`}>
+      <div
+        className={`relative ${SIZE_CLASSES[size]}`}
+        style={{
+          maskImage: EDGE_FADE_MASK,
+          WebkitMaskImage: EDGE_FADE_MASK,
+          filter: "drop-shadow(0 12px 16px rgba(59, 54, 42, 0.16))",
+        }}
+      >
+        <Image
+          src={character.imageUrl}
+          alt={character.name}
+          width={dims.width}
+          height={dims.height}
+          priority={priority}
+          sizes="(min-width: 640px) 300px, 240px"
+          className="h-auto w-full object-contain"
+        />
+      </div>
+      {showName && (
+        <span
+          className="mt-1 rounded-full px-3 py-0.5 text-[11px] font-bold tracking-wide shadow-sm sm:mt-1.5 sm:text-xs"
+          style={{ backgroundColor: bg, color: accent }}
+        >
+          {character.name}
+        </span>
+      )}
     </div>
   );
 }
